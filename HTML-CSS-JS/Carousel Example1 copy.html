@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)file:///Users/julianaferreira/Desktop/untitled%20folder%203/carousel_test.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Carousel Example</title>
+<style>
+.carousel-container {
+  position: relative;
+  width: 400px;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.carousel-item {
+  width: 12%;
+  flex-shrink: 0;
+  margin-right: 10px;
+  margin-top: 50px
+;
+  /* Card styles */
+  border: 1px solid #606060;
+  border-radius: 5px;
+  padding: 50px 20px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.carousel-button {
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pagination-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination-dot.active {
+  background-color: #333;
+}
+</style>
+</head>
+<body>
+
+<div class="carousel-container">
+  <div class="carousel-track" style="transform: translateX(0px);">
+    <div class="carousel-item">Item 1</div>
+    <div class="carousel-item">Item 2</div>
+    <div class="carousel-item">Item 3</div>
+    <div class="carousel-item">Item 4</div>
+    <div class="carousel-item">Item 5</div>
+    <div class="carousel-item">Item 6</div>
+    <div class="carousel-item">Item 7</div>
+    <div class="carousel-item">Item 8</div>
+    <div class="carousel-item">Item 9</div>
+    <div class="carousel-item">Item 10</div>
+    <div class="carousel-item">Item 11</div>
+    <div class="carousel-item">Item 12</div>
+  </div>
+
+  <div class="carousel-controls">
+    <button class="carousel-button prev" aria-label="Previous">&lt;</button>
+    <button class="carousel-button next" aria-label="Next">&gt;</button>
+  </div>
+
+  <div class="pagination"><div class="pagination-dot active"></div><div class="pagination-dot"></div><div class="pagination-dot"></div></div>
+</div>
+
+<script>
+const track = document.querySelector('.carousel-track');
+const itemsPerSlide = 4;
+let currentSlide = 0;
+
+const updateCarousel = () => {
+  track.style.transform = `translateX(-${currentSlide * track.offsetWidth}px)`;
+  updatePaginationDots();
+};
+
+const goToSlide = (slideIndex) => {
+  currentSlide = slideIndex;
+  updateCarousel();
+};
+
+// Pagination
+const paginationContainer = document.querySelector('.pagination');
+const totalSlides = Math.ceil(track.children.length / itemsPerSlide);
+
+for (let i = 0; i < totalSlides; i++) {
+  const dot = document.createElement('div');
+  dot.classList.add('pagination-dot');
+  dot.addEventListener('click', () => goToSlide(i));
+  paginationContainer.appendChild(dot);
+}
+
+const updatePaginationDots = () => {
+  const dots = paginationContainer.querySelectorAll('.pagination-dot');
+  dots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === currentSlide);
+  });
+};
+
+updatePaginationDots();
+
+// Navigation
+document.querySelector('.carousel-button.prev').addEventListener('click', () => {
+  currentSlide = Math.max(currentSlide - 1, 0);
+  updateCarousel();
+});
+
+document.querySelector('.carousel-button.next').addEventListener('click', () => {
+  currentSlide = Math.min(currentSlide + 1, totalSlides - 1);
+  updateCarousel();
+});
+</script>
+
+
+</body></html>
